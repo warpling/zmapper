@@ -35,6 +35,13 @@ class ZMap(object):
       data['progress'] = match.group(2)
       data['remaining'] = match.group(3)
 
+      match = re.search('hits: ([0-9\.]+)%', line)
+      if match is None:
+         print('Hits match: '+line)
+         return None
+
+      data['hits'] = match.group(1)
+
       data['send'] = self.__fill_data('send', line)
       data['recv'] = self.__fill_data('recv', line)
       data['drops'] = self.__fill_data('drops', line)
