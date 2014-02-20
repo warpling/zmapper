@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, Response, render_template
 
 import json
 import zmap
@@ -13,7 +13,7 @@ def home():
 
 @app.route("/status")
 def echo_progress():
-   return json.dumps(probe.report())
+   return Response(json.dumps(probe.report()), mimetype="application/json")
 
 if __name__ == "__main__":
    Flask.debug = True
