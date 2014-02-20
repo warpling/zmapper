@@ -26,7 +26,7 @@ class ZMap(object):
 
       data = {}
 
-      match = re.search('([0-9:]+) ([0-9\.]+)% \(([0-9dh]+) left\)', line)
+      match = re.search('([0-9:]+) ([0-9\.]+)% \(([0-9dhm]+) left\)', line)
       if match is None:
          print('Progress match: '+line)
          return None
