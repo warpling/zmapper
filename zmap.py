@@ -64,13 +64,6 @@ class ZMap(object):
 
       return ret
 
-
-def launch_zmap(port=80):
-   return ZMap(port)
-
-def get_zmap_status(zmap):
-   return zmap.report()
-
 if __name__ == '__main__':
    zmap = ZMap()
 
