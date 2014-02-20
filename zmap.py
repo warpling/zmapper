@@ -12,24 +12,13 @@ class ZMap(object):
       self.errfile = "/tmp/zmap_err-%d" % ZMap.OUTFILE_NUM
       ZMap.OUTFILE_NUM += 1
 
-      args = ['zmap', "-p %d" % self.port, '-i eth0', "-o %s" % self.outfile]
+      args = ['zmap', "-p %d" % self.port, '-i eth0', "-o %s" % self.outfile, "2> %s" % self.errfile, '-d > /dev/null']
       print(" ".join(args))
 
-      err = open(self.errfile, 'w')
-
-      self.process = subprocess.Popen(" ".join(args), shell=True, stderr=err)
+      self.process = subprocess.Popen(" ".join(args), shell=True)
 
    def report(self):
-      line = None
-
-      try:
-         err = open(self.errfile, 'r')
-         err.seek(-1024, 2)
-         line = err.readlines()[-1].strip()
-      except Exception as e:
-         pass
-      finally:
-         err.close()
+      line = subprocess.check_output("tail -n 1 %s" % self.errfile, shell=True)
 
       if line is None:
          print(line)
