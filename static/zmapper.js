@@ -1,10 +1,27 @@
 function reqListener() {
-   console.log(this.responseText)
+   data = JSON.parse(this.responseText);
+
+   for (prop in data) {
+      var elem = document.getElementById(prop);
+      
+      if (elem == null) {
+         continue;
+      }
+
+      while (elem.firstChild) {
+         elem.removeChild(elem.firstChild);
+      }
+
+      elem.appendChild(document.createTextNode(data[prop]));
+   }
 }
 
-setInterval(function() {
+function getUpdate() {
    var oReq = new XMLHttpRequest();
    oReq.onload = reqListener;
-   oReq.open("get", "status", true);
+   oReq.open("GET", "status", true);
    oReq.send();
-},5000);
+}
+
+getUpdate();
+setInterval(getUpdate,5000);

@@ -1,7 +1,16 @@
 <html>
    <head>
+      <link href="{{ url_for('static', filename='zmapper.css') }}" rel='stylesheet' type='text/css'>
       <script src="{{ url_for('static', filename='zmapper.js') }}"></script>
    </head>
    <body>
+      <div>
+         <div><span id="elapsed"></span> elapsed</div>
+         <div><span id="remaining"></span> remaining</div>
+         <div><span id="progress"></span>% complete</div>
+      </div>
+      <div>
+         <div><span id="hits"></span>% hit rate</div>
+      </div>
    </body>
 </html>
