@@ -57,4 +57,8 @@ $(document).ready(function() {
          $("#start").click();
       }
    });
+
+   $("#progress").change(function(eventObj) {
+      $("#overall-progress").attr('aria-valuenow', $(this).val());
+   })
 });
