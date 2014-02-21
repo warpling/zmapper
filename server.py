@@ -11,9 +11,28 @@ probe = zmap.ZMap()
 def home():
    return render_template('home.html')
 
+@app.route("/start")
+def start():
+   if not probe.is_started():
+      probe.start()
+      return "", 200
+   else:
+      return "", 400
+
+@app.route("/stop")
+def stop():
+   if probe.is_started():
+      probe.stop()
+      return "", 200
+   else:
+      return "", 400
+
 @app.route("/status")
 def echo_progress():
-   return Response(json.dumps(probe.report()), mimetype="application/json")
+   if probe.is_started():
+      return Response(json.dumps(probe.report()), mimetype="application/json")
+   else:
+      return "", 400
 
 if __name__ == "__main__":
    Flask.debug = True

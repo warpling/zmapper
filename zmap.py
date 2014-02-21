@@ -10,19 +10,39 @@ class ZMap(object):
       self.port = port
       self.outfile = "/tmp/zmap_out-%d" % ZMap.OUTFILE_NUM
       self.errfile = "/tmp/zmap_err-%d" % ZMap.OUTFILE_NUM
+      self.process = None
       ZMap.OUTFILE_NUM += 1
+
+   def start(self):
+      if self.is_started():
+         return
 
       args = ['zmap', "-p %d" % self.port, '-i eth0', "-o %s" % self.outfile, "2> %s" % self.errfile, '-d > /dev/null']
       print(" ".join(args))
 
       self.process = subprocess.Popen(" ".join(args), shell=True)
 
+   def stop(self):
+      if not self.is_started():
+         return
+
+      self.process.kill()
+      self.process = None
+
+   def is_started(self):
+      return self.process is not None
+
    def report(self):
+      if not self.is_started():
+         return None
+
       line = subprocess.check_output("tail -n 1 %s" % self.errfile, shell=True)
 
       if line is None:
          print(line)
          return None
+      else:
+         line = line.strip()
 
       data = {}
 
