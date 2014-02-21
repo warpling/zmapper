@@ -3,7 +3,7 @@ function reqListener() {
 
    for (prop in data) {
       var elem = document.getElementById(prop);
-      
+
       if (elem == null) {
          continue;
       }
@@ -23,5 +23,19 @@ function getUpdate() {
    oReq.send();
 }
 
-getUpdate();
-setInterval(getUpdate,5000);
+$(document).ready(function() {
+   $("#start").click(function() {
+      $.ajax("start");
+      window.updater = window.setInterval(getUpdate,5000);
+      $(this).attr("disabled","disabled");
+      $("#stop").removeAttr("disabled");
+   });
+
+   $("#stop").click(function() {
+      $.ajax("stop");
+      window.clearInterval(window.updater);
+      $(this).attr("disabled","disabled");
+      $("#start").removeAttr("disabled");
+   });
+
+});
