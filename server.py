@@ -27,6 +27,12 @@ def stop():
    else:
       return "", 400
 
+@app.route("/started")
+def started():
+   result = probe.is_started()
+
+   return Response(str(result), mimetype="text/plain")
+
 @app.route("/status")
 def echo_progress():
    if probe.is_started():

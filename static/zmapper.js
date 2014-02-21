@@ -1,19 +1,33 @@
+function setVal(prefix, prop, data) {
+   var elem = document.getElementById(prefix + prop);
+   console.log("Setting "+prefix+prop + " to " + data[prop]);
+
+   if (elem == null) {
+      return;
+   }
+
+   while (elem.firstChild) {
+      elem.removeChild(elem.firstChild);
+   }
+
+   elem.appendChild(document.createTextNode(data[prop]));
+
+}
+
+function setVals(prefix, data) {
+   for (prop in data) {
+      if (typeof data[prop] == "object") {
+         setVals(prefix + prop, data[prop]);
+      } else {
+         setVal(prefix, prop, data);
+      }
+   }
+}
+
 function reqListener() {
    data = JSON.parse(this.responseText);
 
-   for (prop in data) {
-      var elem = document.getElementById(prop);
-
-      if (elem == null) {
-         continue;
-      }
-
-      while (elem.firstChild) {
-         elem.removeChild(elem.firstChild);
-      }
-
-      elem.appendChild(document.createTextNode(data[prop]));
-   }
+   setVals("", data);
 }
 
 function getUpdate() {
@@ -38,4 +52,9 @@ $(document).ready(function() {
       $("#start").removeAttr("disabled");
    });
 
+   $.ajax("started").done(function(data) {
+      if (data == "True") {
+         $("#start").click();
+      }
+   });
 });
