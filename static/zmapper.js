@@ -28,6 +28,10 @@ function reqListener() {
    data = JSON.parse(this.responseText);
 
    setVals("", data);
+
+   // Update progress bar
+   // TODO: handle via change event
+   $("#overall-progress").css("width", data["progress"]+"%");
 }
 
 function getUpdate() {
@@ -57,8 +61,4 @@ $(document).ready(function() {
          $("#start").click();
       }
    });
-
-   $("#progress").change(function(eventObj) {
-      $("#overall-progress").attr('aria-valuenow', $(this).val());
-   })
 });
